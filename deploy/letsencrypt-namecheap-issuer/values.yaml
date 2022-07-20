@@ -4,3 +4,7 @@
 secret: namecheap-credentials
 
 email: somebody@example.org
+
+apiKey: apiKey
+
+apiUser: apiUser
