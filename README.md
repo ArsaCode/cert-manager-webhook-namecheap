@@ -14,24 +14,14 @@ Use helm to deploy this into your `cert-manager` namespace:
 helm install -n cert-manager namecheap-webhook deploy/cert-manager-webhook-namecheap/
 ```
 
-Create the cluster issuers:
+Go to namecheap and set up your API key (note that you'll need to whitelist the
+public IP of the k8s cluster to use the webhook).
+
+Install the cluster issuer chart (the chart will add the namecheap-credentials secret in the
+cert-manager namespace with your API Credentials):
 
 ``` sh
-helm install --set email=yourname@example.com -n cert-manager letsencrypt-namecheap-issuer deploy/letsencrypt-namecheap-issuer/
-```
-
-Go to namecheap and set up your API key (note that you'll need to whitelist the
-public IP of the k8s cluster to use the webhook), and set the secret:
-
-``` yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: namecheap-credentials
-type: Opaque
-stringData:
-  apiKey: my_api_key_from_namecheap
-  apiUser: my_username_from_namecheap
+helm install --set email=yourname@example.com --set apiKey=yourApiKey --set apiUser=yourApiUser -n cert-manager letsencrypt-namecheap-issuer deploy/letsencrypt-namecheap-issuer/
 ```
 
 Now you can create a certificate in staging for testing:
